@@ -1,0 +1,42 @@
+- name: New user setup
+  hosts: testing
+  tasks:
+  - name: Ping my hosts
+    ansible.builtin.ping:
+  - name: print message
+    ansible.builtin.debug:
+      msg: Hello World
+  - name: Install essential packages
+    become: true
+    become_user: root
+    ansible.builtin.package:
+      name:
+      - curl
+      - git
+      - htop
+      - iftop
+      - iotop
+      - lm-sensors
+      - mc
+      - most
+      - mutt
+      - nano
+      - ncdu
+      - neofetch
+      - net-tools
+      - nmap
+      - openssh-server
+      - open-vm-tools
+      - python
+      - qemu-guest-agent
+      - rsync
+      - screen
+      - smartmontools
+      - sudo
+      - tmux
+      - tree
+      - unzip
+      - wget
+      - zsh
+      state: present
+

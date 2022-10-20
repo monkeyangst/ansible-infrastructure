@@ -1,0 +1,27 @@
+---
+- hosts: victim
+  become: true
+  tasks:
+    - include_vars: vars.yml
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 86400 # one day
+
+    - name: Upgrade all apt packages
+      apt:
+        upgrade: dist
+        force_apt_get: yes
+
+    - name: Check if a reboot is needed for Debian and Ubuntu boxes
+      register: reboot_required_file
+      stat: 
+        path: /var/run/reboot-required
+        get_md5: no
+    - name: Install the packages I like
+      ansible.builtin.package:
+        name: "{{ favorite_packages }}"
+
+        state: present
+

@@ -1,0 +1,31 @@
+#
+# Packages
+#
+favorite_packages:
+  - curl
+  - git
+  - htop
+  - iftop
+  - iotop
+  - lm-sensors
+  - mc
+  - most
+  - mutt
+  - nano
+  - ncdu
+  - neofetch
+  - net-tools
+  - nmap
+  - openssh-server
+  - open-vm-tools
+  - qemu-guest-agent
+  - rsync
+  - screen
+  - smartmontools
+  - sudo
+  - tmux
+  - tree
+  - unzip
+  - util-linux
+  - wget
+  - zsh
