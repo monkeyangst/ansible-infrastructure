@@ -1,0 +1,31 @@
+# Shamelessly stol-- er, adapted -- from @ironicbadger
+#
+# Packages
+#
+extra_packages:
+  - iperf3
+  - speedtest-cli
+  - htop
+  - git
+  - neofetch
+  - nano
+  - tmux
+  # - mosh
+  - rsync
+  - lm-sensors
+  - iotop
+  - ncdu
+  - hddtemp
+
+  - mc
+  - zsh
+  - docker
+  - docker-compose
+  - sudo
+  - rsync
+  - neofetch
+  - curl
+  - wget
+  - linux-utils
+  - unzip
+  - most
