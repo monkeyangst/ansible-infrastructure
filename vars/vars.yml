@@ -22,6 +22,7 @@ favorite_packages:
   - rsync
   - screen
   - smartmontools
+  - stow
   - sudo
   - tmux
   - tree

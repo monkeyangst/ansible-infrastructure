@@ -1,0 +1,26 @@
+---
+- hosts: victim
+  remote_user: bhawkins
+  become: true
+  tasks:
+    - name: Make sure bhawkins user is created
+      ansible.builtin.user:
+        name: bhawkins
+        comment: Brad Hawkins
+        groups: 
+          - users
+          - sudo
+          - adm
+        createhome: yes
+        home: /home/bhawkins
+        shell: /bin/zsh
+        state: present
+    - name: Download my dotfiles from github
+      become: false
+      git:
+        repo: https://github.com/monkeyangst/dotfiles.git
+        dest: ".dotfiles"
+    - name: Use stow to populate dotfiles
+      ansible.builtin.shell:
+        cmd: "stow --dir=/home/bhawkins/.dotfiles --target=/home/bhawkins zsh tmux" 
+    
