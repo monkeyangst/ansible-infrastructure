@@ -5,8 +5,8 @@ favorite_packages:
   - curl
   - git
   - htop
-  - iftop
-  - iotop
+  - "iftop"
+  - "iotop"
   - lm-sensors
   - mc
   - most
@@ -15,7 +15,7 @@ favorite_packages:
   - ncdu
   - neofetch
   - net-tools
-  - nmap
+  - 'nmap'
   - openssh-server
   - open-vm-tools
   - qemu-guest-agent

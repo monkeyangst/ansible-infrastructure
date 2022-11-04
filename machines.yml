@@ -1,0 +1,7 @@
+---
+  # Fozzie is my media server, connected to a couple of hard drive arrays.
+  - hosts: fozzie
+    become: true
+    roles:
+      - role: packages
+      - role: geerlingguy.docker
