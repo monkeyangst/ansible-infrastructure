@@ -1,0 +1,5 @@
+zsh_default_shell: true
+zsh_dot_dir: "~/.config/shell"
+zsh_plugins:
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting

@@ -30,3 +30,4 @@ favorite_packages:
   - util-linux
   - wget
   - zsh
+  - cifs-utils

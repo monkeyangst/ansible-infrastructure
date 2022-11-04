@@ -1,7 +1,10 @@
 ---
-- hosts: victim
+- hosts: testing
   remote_user: bhawkins
   become: true
+  roles:
+    - packages
+    - zsh
   tasks:
     - name: Make sure bhawkins user is created
       ansible.builtin.user:
@@ -15,6 +18,7 @@
         home: /home/bhawkins
         shell: /bin/zsh
         state: present
+    
     - name: Download my dotfiles from github
       become: false
       git:
