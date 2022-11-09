@@ -1,0 +1,5 @@
+---
+roles:
+  - name: geerlingguy.dotfiles
+  - name: geerlingguy.docker
+  - name: artis3n.tailscale

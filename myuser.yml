@@ -1,5 +1,6 @@
 ---
-- hosts: testing
+name: Set up my bhawkins user
+  hosts: testing
   remote_user: bhawkins
   become: true
   roles:

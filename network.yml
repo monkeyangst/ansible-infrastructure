@@ -1,0 +1,9 @@
+---
+- name: Change Ubuntu networking to NetworkManager
+  hosts: ubuntu
+  tasks:
+    - name: Start the NetworkManager service
+      ansible.builtin.service:
+        name: NetworkManager
+        state: started
+        enabled: true
