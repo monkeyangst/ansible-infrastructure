@@ -1,0 +1,13 @@
+---
+# vim:ft=yaml.ansible ts=2 et
+- name: Install vale
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: https://github.com/errata-ai/vale/releases/download/v2.17.0/vale_{{ vale_version }}_Linux_64-bit.tar.gz
+    include:
+      - "vale"
+    dest: /usr/local/bin
+  become: true
+- name: Vale sync
+  ansible.builtin.command:
+    cmd: vale sync

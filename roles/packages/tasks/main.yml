@@ -8,7 +8,8 @@
 - name: Upgrade all apt packages
   ansible.builtin.apt:
     upgrade: dist
-    force_apt_get: true
+    force _apt_get: true
+  when: upgrade_packages
 
 - name: Check if a reboot is needed for Debian and Ubuntu boxes
   register: reboot_required_file
@@ -19,3 +20,4 @@
   ansible.builtin.package:
     name: "{{ favorite_packages }}"
     state: present
+    

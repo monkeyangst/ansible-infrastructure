@@ -1,0 +1,6 @@
+---
+# vars file for devstation
+dotfiles_repo: "fallenpixel/dotfiles"
+neovim_version: "0.7.2"
+min_neovim_version: "0.7.2"
+vale_version: "2.17.0"

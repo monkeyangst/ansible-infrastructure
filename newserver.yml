@@ -1,12 +1,11 @@
 - name: New user setup
-  hosts: testing
+  hosts: all
   become: true
   roles:
     - packages
   tasks:
     - name: Ping my hosts
       ansible.builtin.ping:
-    - name: print message
+    - name: Print message
       ansible.builtin.debug:
         msg: Hello World
- 

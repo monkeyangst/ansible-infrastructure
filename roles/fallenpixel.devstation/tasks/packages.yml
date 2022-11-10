@@ -1,0 +1,21 @@
+---
+- name: Install Preferred tools
+  ansible.builtin.package:
+    name:
+      - htop
+      - tmux
+      - screen
+      - jq
+    state: present
+  become: true
+- name: Archlinux Tools
+  block:
+    - name: Archlinux Specific Packages
+      ansible.builtin.package:
+        name:
+          - bat
+          - lsd
+          - yq
+        state: present
+      become: true
+  when: ansible_os_family == "Archlinux"

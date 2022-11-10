@@ -1,6 +1,7 @@
 #
 # Packages
 #
+upgrade_packages: false
 favorite_packages:
   - curl
   - git
