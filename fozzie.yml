@@ -1,0 +1,23 @@
+---
+# Fozzie is my media server, connected to a couple of hard drive arrays.
+
+- name: Set up Fozzie
+  hosts: all
+  become: true
+  pre_tasks:
+  - name: Update apt packages
+    ansible.builtin.package:
+      update_cache: true
+      force_apt_get: true
+      cache_valid_time: 86400 # one day
+
+  vars:
+    docker_edition: 'ce'
+    docker_service_manage: true
+    docker_service_state: started
+    docker_service_enabled: true
+    docker_restart_handler_state: restarted
+
+  # Use Jeff Geerling's docker role to install docker and docker-compose
+  roles:
+    - role: geerlingguy.docker

@@ -19,6 +19,7 @@ favorite_packages:
   - 'nmap'
   - openssh-server
   - open-vm-tools
+  - pv
   - qemu-guest-agent
   - rsync
   - screen
