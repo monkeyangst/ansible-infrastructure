@@ -1,5 +1,23 @@
 ---
+# generic settings
+main_username: bhawkins
+main_groupname: "{{ main_username }}"
+main_uid: "1000"
+main_gid: "{{ main_uid }}"
+ntp_timezone: "America/Chicago"
+
+
 # geerlingguy.dotfiles
 dotfiles_repo: "https://github.com/monkeyangst/dotfiles"
 dotfiles_repo_version: master
 notreallyavar: flooble
+
+# ironicbadger.docker_compose_generator
+appdata_path: /opt/appdata
+global_env_vars:
+  - "PUID={{ main_uid }}"
+  - "PGID={{ main_gid }}"
+  - "TZ={{ ntp_timezone }}"
+docker_compose_generator_uid: "{{ main_uid }}"
+docker_compose_generator_gid: "{{ main_gid }}"
+docker_compose_generator_output_path: /home/{{ main_username }}

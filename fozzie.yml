@@ -5,11 +5,11 @@
   hosts: all
   become: true
   pre_tasks:
-  - name: Update apt packages
-    ansible.builtin.package:
-      update_cache: true
-      force_apt_get: true
-      cache_valid_time: 86400 # one day
+    - name: Ensure packages are updated and upgraded
+      ansible.builtin.import_role:
+        name: packages
+      vars:
+        upgrade_packages: true
 
   vars:
     docker_edition: 'ce'
@@ -17,7 +17,10 @@
     docker_service_state: started
     docker_service_enabled: true
     docker_restart_handler_state: restarted
+    docker_users:
+      - bhawkins
 
   # Use Jeff Geerling's docker role to install docker and docker-compose
   roles:
     - role: geerlingguy.docker
+    - role: ironicbadger.docker_compose_generator

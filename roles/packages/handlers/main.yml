@@ -1,0 +1,4 @@
+---
+- name: Reboot
+  ansible.builtin.debug:
+    msg: "Flooble"
