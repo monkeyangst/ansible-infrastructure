@@ -9,3 +9,29 @@ containers:
     volumes:
       - "/opt/appdata/heimdall:/config"
     restart: unless-stopped
+
+## snapraid
+snapraid_config_excludes:
+  - "*.unrecoverable"
+  - "/tmp/"
+  - "/lost+found/"
+  - "downloads/"
+  - "appdata/"
+  - "/mnt/disk7/umbrel/"
+  - "*.!sync"
+  - ".AppleDouble"
+  - "._AppleDouble"
+  - ".DS_Store"
+  - "._.DS_Store"
+  - ".Thumbs.db"
+  - ".fseventsd"
+  - ".Spotlight-V100"
+  - ".TemporaryItems"
+  - ".Trashes"
+  - ".AppleDB"
+  - ".nfo"
+
+# ironicbadger.snapraid
+snapraid_bin_path: /usr/local/bin/snapraid
+snapraid_runner_cron_jobs:
+  - { job: '{{ syncoid_hc_url }}/{{ syncoid_hc_uuid_mor_snapraid }}/start && {{ snapraid_runner_command }} | {{ syncoid_hc_url }}/{{ syncoid_hc_uuid_mor_snapraid }} --data-binary "@-"', name: 'snapraid_runner', weekday: '*', hour: '01' }
