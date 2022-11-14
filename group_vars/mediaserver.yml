@@ -1,9 +1,18 @@
 ---
+bazarr_version: "1.1.2"
+heimdall_version: "2.4.15"
+jackett_version: "0.20.2247"
+lidarr_version: "1.0.2"
+plex_version: "1.29.2"
+radarr_version: "4.2.4"
+sonarr_version: "3.0.9"
+tautulli_version: "2.10.5"
+transmission_version: "4.2"
 
 containers:
   - service_name: heimdall
     active: true
-    image: lscr.io/linuxserver/heimdall:latest
+    image: lscr.io/linuxserver/heimdall:{{ heimdall_version }}
     ports:
       - 80:80
       - 443:443
@@ -13,7 +22,7 @@ containers:
   - service_name: jackett
     container_name: jackett
     active: true
-    image: lscr.io/linuxserver/jackett:latest
+    image: lscr.io/linuxserver/jackett:{{ jackett_version }}
     ports:
       - 9117:9117
     volumes:
@@ -24,7 +33,7 @@ containers:
   - service_name: sonarr
     container_name: sonarr
     active: true
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr:{{ sonarr_version }}
     ports:
       - 8989:8989
     volumes:
@@ -35,7 +44,7 @@ containers:
   - service_name: radarr
     container_name: radarr
     active: true
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr:{{ radarr_version }}
     ports:
       - 7878:7878
     volumes:
@@ -43,10 +52,25 @@ containers:
       - /mnt/storage:/data
     restart: unless-stopped
 
+  - service_name: lidarr
+    image: lscr.io/linuxserver/lidarr:{{ lidarr_version }}
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - /opt/appdata/lidarr:/config
+      - /mnt/storage:/data
+    ports:
+      - 8686:8686
+    restart: unless-stopped
+
+
   - service_name: tautulli
     container_name: tautulli
     active: true
-    image: lscr.io/linuxserver/tautulli:latest
+    image: lscr.io/linuxserver/tautulli:{{ tautulli_version }}
     volumes:
       - /opt/appdata/tautulli:/config
     ports:
@@ -56,7 +80,7 @@ containers:
   - service_name: bazarr
     container_name: bazarr
     active: true
-    image: lscr.io/linuxserver/bazarr:latest
+    image: lscr.io/linuxserver/bazarr:{{ bazarr_version }}
     ports:
       - 6767:6767
     volumes:
@@ -86,7 +110,7 @@ containers:
   - service_name: transmission-openvpn
     container_name: transmission
     active: true
-    image: haugene/transmission-openvpn:latest
+    image: haugene/transmission-openvpn:{{ transmission_version }}
     volumes:
       - /mnt/storage/downloads/:/data
     cap_add:
@@ -133,10 +157,9 @@ snapraid_config_excludes:
   - "/lost+found/"
   - "downloads/"
   - "appdata/"
-  - "/mnt/disk7/umbrel/"
   - "*.!sync"
   - ".AppleDouble"
-  - "._AppleDouble"
+  - "._AppleDoubsudo le"
   - ".DS_Store"
   - "._.DS_Store"
   - ".Thumbs.db"
