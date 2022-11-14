@@ -32,4 +32,6 @@ favorite_packages:
   - util-linux
   - wget
   - zsh
+  - zsh-syntax-highlighting
+  - zsh-autosuggestions
   - cifs-utils

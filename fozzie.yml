@@ -3,6 +3,9 @@
 
 - name: Set up Fozzie
   hosts: all
+  vars_files:
+    - 'vars/vault.yml'
+
   become: true
   pre_tasks:
     - name: Ensure packages are updated and upgraded

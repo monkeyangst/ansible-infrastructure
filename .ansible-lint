@@ -7,7 +7,8 @@ exclude_paths:
   - .cache/ # implicit unless exclude_paths is defined in config
   - .github/
   - galaxy_roles/
-# parseable: true
+  - vars/vault.yml
+# parsable: true
 # quiet: true
 # strict: true
 # verbosity: 1
