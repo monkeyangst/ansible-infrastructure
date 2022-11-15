@@ -9,8 +9,38 @@ sonarr_version: "3.0.9"
 tautulli_version: "2.10.5"
 transmission_version: "4.2"
 
+plex_env:
+  - VERSION=docker
+  - PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/config
+
+transmission_env:
+  - UMASK_SET=022
+  - OPENVPN_PROVIDER=OVPN
+  - OPENVPN_CONFIG=standard.us.dallas.tcp
+  - OPENVPN_USERNAME={{ ovpn_username }}
+  - OPENVPN_PASSWORD={{ ovpn_password }}
+  - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+  - LOCAL_NETWORK=10.0.1.0/24,100.64.0.0/10
+  - TRANSMISSION_ALT_SPEED_DOWN=100
+  - TRANSMISSION_DOWNLOAD_DIR=/data
+  - TRANSMISSION_INCOMPLETE_DIR=/data/incomplete
+  - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
+  - TRANSMISSION_MESSAGE_LEVEL=1
+  - TRANSMISSION_PEER_PORT=52403
+  - TRANSMISSION_PEER_PORT_RANDOM_ON_START=false
+  - TRANSMISSION_PORT_FORWARDING_ENABLED=true
+  - TRANSMISSION_RATIO_LIMIT=20
+  - TRANSMISSION_RATIO_LIMIT_ENABLED=true
+  - TRANSMISSION_RPC_ENABLED=true
+  - TRANSMISSION_RPC_PORT=9091
+  - TRANSMISSION_RPC_WHITELIST=127.0.0.1,*
+  - TRANSMISSION_WATCH_DIR=/data/watch
+  - TRANSMISSION_WATCH_DIR_ENABLED=true
+  - WEBPROXY_ENABLED=false
+
 containers:
   - service_name: heimdall
+    environment: "{{ global_env_vars }}"
     active: true
     image: lscr.io/linuxserver/heimdall:{{ heimdall_version }}
     ports:
@@ -19,7 +49,9 @@ containers:
     volumes:
       - "/opt/appdata/heimdall:/config"
     restart: unless-stopped
+
   - service_name: jackett
+    environment: "{{ global_env_vars }}"
     container_name: jackett
     active: true
     image: lscr.io/linuxserver/jackett:{{ jackett_version }}
@@ -34,6 +66,7 @@ containers:
     container_name: sonarr
     active: true
     image: lscr.io/linuxserver/sonarr:{{ sonarr_version }}
+    environment: "{{ global_env_vars }}"
     ports:
       - 8989:8989
     volumes:
@@ -45,6 +78,7 @@ containers:
     container_name: radarr
     active: true
     image: lscr.io/linuxserver/radarr:{{ radarr_version }}
+    environment: "{{ global_env_vars }}"
     ports:
       - 7878:7878
     volumes:
@@ -53,12 +87,10 @@ containers:
     restart: unless-stopped
 
   - service_name: lidarr
+    active: true
     image: lscr.io/linuxserver/lidarr:{{ lidarr_version }}
     container_name: lidarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
+    environment: "{{ global_env_vars }}"
     volumes:
       - /opt/appdata/lidarr:/config
       - /mnt/storage:/data
@@ -69,6 +101,7 @@ containers:
 
   - service_name: tautulli
     container_name: tautulli
+    environment: "{{ global_env_vars }}"
     active: true
     image: lscr.io/linuxserver/tautulli:{{ tautulli_version }}
     volumes:
@@ -79,6 +112,7 @@ containers:
 
   - service_name: bazarr
     container_name: bazarr
+    environment: "{{ global_env_vars }}"
     active: true
     image: lscr.io/linuxserver/bazarr:{{ bazarr_version }}
     ports:
@@ -90,16 +124,14 @@ containers:
     restart: unless-stopped
 
   - service_name: plex
-    image: lscr.io/linuxserver/plex:latest
+    image: lscr.io/linuxserver/plex:{{ plex_version }}
     container_name: plex
     active: true
-    hostname: calliope.monkeyangst.com
+    hostname: fozzie
     network_mode: host
     devices:
       - /dev/dri:/dev/dri
-    environment:
-      - VERSION=docker
-      - PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/config
+    environment: "{{ global_env_vars + plex_env }}"
     volumes:
       - '/mnt/storage/newhamsterdam/tv:/tv'
       - '/mnt/storage/newhamsterdam/movies:/movies'
@@ -110,6 +142,7 @@ containers:
   - service_name: transmission-openvpn
     container_name: transmission
     active: true
+    environment: "{{ global_env_vars + transmission_env }}"
     image: haugene/transmission-openvpn:{{ transmission_version }}
     volumes:
       - /mnt/storage/downloads/:/data
@@ -125,30 +158,7 @@ containers:
     ports:
       - '9091:9091'
     restart: unless-stopped
-    environment:
-      - UMASK_SET=022  # optional
-      - OPENVPN_PROVIDER=OVPN
-      - OPENVPN_CONFIG=standard.us.dallas.tcp
-      - OPENVPN_USERNAME={{ ovpn_username }}
-      - OPENVPN_PASSWORD={{ ovpn_password }}
-      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
-      - LOCAL_NETWORK=10.0.1.0/24,100.64.0.0/10
-      - TRANSMISSION_ALT_SPEED_DOWN=100
-      - TRANSMISSION_DOWNLOAD_DIR=/data
-      - TRANSMISSION_INCOMPLETE_DIR=/data/incomplete
-      - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
-      - TRANSMISSION_MESSAGE_LEVEL=1
-      - TRANSMISSION_PEER_PORT=52403
-      - TRANSMISSION_PEER_PORT_RANDOM_ON_START=false
-      - TRANSMISSION_PORT_FORWARDING_ENABLED=true
-      - TRANSMISSION_RATIO_LIMIT=20
-      - TRANSMISSION_RATIO_LIMIT_ENABLED=true
-      - TRANSMISSION_RPC_ENABLED=true
-      - TRANSMISSION_RPC_PORT=9091
-      - TRANSMISSION_RPC_WHITELIST=127.0.0.1,*
-      - TRANSMISSION_WATCH_DIR=/data/watch
-      - TRANSMISSION_WATCH_DIR_ENABLED=true
-      - WEBPROXY_ENABLED=false
+
 
 ## snapraid
 snapraid_config_excludes:

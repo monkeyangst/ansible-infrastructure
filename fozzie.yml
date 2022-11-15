@@ -23,7 +23,7 @@
     docker_users:
       - bhawkins
 
-  # Use Jeff Geerling's docker role to install docker and docker-compose
   roles:
+    - role: common
     - role: geerlingguy.docker
     - role: ironicbadger.docker_compose_generator
