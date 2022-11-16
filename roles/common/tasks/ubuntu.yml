@@ -1,0 +1,9 @@
+---
+- name: Do a debug thing
+  ansible.builtin.debug:
+    msg: "###### WE ARE HERE!!!! #####"
+
+- name: Get rid of snapd
+  ansible.builtin.package:
+    name: snapd
+    state: absent

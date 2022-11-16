@@ -26,8 +26,8 @@
     name: "{{ additional_packages }}"
     state: present
 
-# - name: Install the packages I like
-#   ansible.builtin.package:
-#     name: "{{ favorite_packages }}"
-#     state: present
-#   tags: optional
+- name: Install the packages I like
+  ansible.builtin.package:
+    name: "{{ favorite_packages }}"
+    state: present
+  tags: optional

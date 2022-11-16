@@ -1,0 +1,30 @@
+---
+# tasks file for fozzie-network
+
+- name: Copy the template 00-installer-config.yaml over
+  ansible.builtin.template:
+    src: 00-installer-config.yaml.ubuntu.j2
+    dest: /etc/netplan/00-installer-config.yaml
+    owner: root
+    group: root
+    mode: 0644
+    backup: false
+
+- name: Apply and reload the new static ip address with netplan
+  ansible.builtin.command: netplan apply
+  become: true
+  async: 100
+  poll: 0
+
+- name: Update Ansible with new ip address information
+  ansible.builtin.set_fact:
+    ansible_host: "{{ new_static_ip }}"
+
+- name: Waiting for the hosts network to come back up
+  ansible.builtin.wait_for:
+    host: "{{ ansible_host }}"
+    port: 22
+    sleep: 86400     # check every 24 hours
+    timeout: 604800  # exit after 7 days
+  delegate_to: localhost
+  register: wait_result

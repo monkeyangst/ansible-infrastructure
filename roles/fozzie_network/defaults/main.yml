@@ -1,0 +1,3 @@
+---
+# defaults file for fozzie-network
+new_static_ip: "{{ ansible_host }}"

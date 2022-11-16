@@ -3,9 +3,6 @@
 additional_packages:
   - snapraid
   - mergerfs
-  - docker.io
-  - docker-compose
-
 
 bazarr_version: "1.1.2"
 heimdall_version: "2.4.15"
@@ -78,7 +75,7 @@ containers:
     ports:
       - 8989:8989
     volumes:
-      - "/opt/appdata/NzbDrone:/config"
+      - "/opt/appdata/sonarr:/config"
       - "/mnt/storage:/data"
     restart: unless-stopped
 
@@ -90,7 +87,7 @@ containers:
     ports:
       - 7878:7878
     volumes:
-      - /opt/appdata/Radarr:/config
+      - /opt/appdata/radarr:/config
       - /mnt/storage:/data
     restart: unless-stopped
 

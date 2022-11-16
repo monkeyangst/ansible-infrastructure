@@ -25,8 +25,11 @@
 
   roles:
     - role: common
+      tags: testing
     - role: motd
+    # - role: fozzie_network
+    #   tags: testing
     - role: fozzie_drives
-    # - role: geerlingguy.docker
-      # tags: jeff
-    # - role: ironicbadger.docker_compose_generator
+    - role: geerlingguy.docker
+      tags: jeff
+    - role: ironicbadger.docker_compose_generator

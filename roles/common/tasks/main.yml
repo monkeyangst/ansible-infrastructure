@@ -13,3 +13,12 @@
 - name: Set Timezone
   community.general.timezone:
     name: America/Chicago
+
+- name: Check ansible_distribution
+  ansible.builtin.debug:
+    msg: "{{ ansible_distribution }}"
+
+- name: Cleanup tasks specific to Ubuntu
+  ansible.builtin.include_tasks:
+    file: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
