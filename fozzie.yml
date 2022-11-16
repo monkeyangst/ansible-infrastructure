@@ -26,5 +26,7 @@
   roles:
     - role: common
     - role: motd
-    - role: geerlingguy.docker
-    - role: ironicbadger.docker_compose_generator
+    - role: fozzie_drives
+    # - role: geerlingguy.docker
+      # tags: jeff
+    # - role: ironicbadger.docker_compose_generator
