@@ -1,0 +1,32 @@
+---
+# Fozzie is my media server, connected to a couple of hard drive arrays.
+
+- name: Set up Fozzie
+  hosts: all
+  vars_files:
+    - 'vars/vault.yml'
+
+  become: true
+  pre_tasks:
+    - name: Ensure packages are updated and upgraded
+      ansible.builtin.import_role:
+        name: packages
+      vars:
+        upgrade_packages: true
+
+  vars:
+    docker_edition: 'ce'
+    docker_service_manage: true
+    docker_service_state: started
+    docker_service_enabled: true
+    docker_restart_handler_state: restarted
+    docker_users:
+      - bhawkins
+
+  roles:
+    - role: common
+    - role: motd
+    - role: fozzie_drives
+    # - role: geerlingguy.docker
+      # tags: jeff
+    # - role: ironicbadger.docker_compose_generator

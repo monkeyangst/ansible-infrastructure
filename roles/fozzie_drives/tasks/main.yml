@@ -1,0 +1,45 @@
+---
+# tasks file for fozzie-drives
+- name: Ensure snapraid and mergerfs packages are installed
+  ansible.builtin.package:
+    name:
+      - mergerfs
+      - snapraid
+    state: present
+
+- name: Create /mnt points
+  ansible.builtin.file:
+    dest: "{{ item.path }}"
+    state: directory
+    owner: "{{ main_uid }}"
+    group: "{{ main_gid }}"
+    mode: 0755
+  with_items:
+    - "{{ snapraid_parity_disks }}"
+    - "{{ snapraid_data_disks }}"
+    - "{{ snapraid_content_disks }}"
+
+- name: Mount disks
+  ansible.posix.mount:
+    name: "{{ item.path }}"
+    src: "{{ item.diskbylabel }}"
+    fstype: "{{ item.fs }}"
+    opts: "{{ item.opts }}"
+    state: mounted
+  with_items:
+    - "{{ snapraid_parity_disks }}"
+    - "{{ snapraid_data_disks }}"
+    - "{{ snapraid_content_disks }}"
+  when: item.path != '/mnt/storage'
+
+
+- name: Mount mergerfs array
+  ansible.posix.mount:
+    name: "{{ item.mountpoint }}"
+    src: "{{ item.source }}"
+    opts: "{{ item.opts }}"
+    fstype: "{{ item.fs }}"
+    # change to 'mounted' to auto mount
+    state: mounted
+  with_items:
+    - "{{ fstab_mergerfs }}"

@@ -1,9 +1,0 @@
----
-galaxy_info:
-  role_name: "devstation"
-  author: Eric Lehmann
-  description: Used to download and apply stow dotfiles and common packages
-  license: license (GPL-2.0-or-later)
-  min_ansible_version: 2.1
-  galaxy_tags: []
-dependencies: []

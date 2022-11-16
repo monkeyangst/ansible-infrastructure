@@ -1,0 +1,86 @@
+---
+# defaults file for fozzie-drives
+storage_opts: >
+  defaults, nonempty,
+  allow_other,use_ino,cache.files=off,moveonenospc=true,
+  category.create=epmfs,dropcacheonclose=true,
+  minfreespace=50G,fsname=mergerfs
+data_opts: "subvol=@data"
+content_opts: "subvol=@content"
+
+fstab_mergerfs:
+  - {
+    source: "/mnt/snapraid-data/disk*",
+    mountpoint: "/mnt/storage",
+    fs: fuse.mergerfs,
+    opts: "defaults,nonempty,allow_other,use_ino,moveonenospc=true,category.create=epmfs,dropcacheonclose=true,minfreespace=2G,fsname=mergerfs"
+  }
+
+# Define Snapraid parity drives
+snapraid_parity_disks:
+  - {
+    path: /mnt/snapraid-parity/p1,
+    src: "LABEL=snapraid_p01",
+    fstype: ext4,
+    state: mounted,
+    content: false,
+    opts: defaults,
+  }
+  - {
+    path: /mnt/snapraid-parity/p2,
+    src: "LABEL=snapraid_p02",
+    fstype: ext4,
+    state: mounted,
+    content: false,
+    opts: defaults,
+  }
+
+snapraid_data_disks:
+  - {
+    path: /mnt/snapraid-data/disk1,
+    src: "LABEL=mergerfsdisk1",
+    fstype: btrfs,
+    state: mounted,
+    content: false,
+    opts: subvol=@data,
+  }
+  - {
+    path: /mnt/snapraid-data/disk2,
+    src: "LABEL=mergerfsdisk2",
+    fstype: btrfs,
+    state: mounted,
+    content: false,
+    opts: subvol=@data,
+  }
+  - {
+    path: /mnt/snapraid-data/disk3,
+    src: "LABEL=mergerfsdisk3",
+    fstype: btrfs,
+    state: mounted,
+    content: false,
+    opts: subvol=@data,
+  }
+  - {
+    path: /mnt/snapraid-data/disk4,
+    src: "LABEL=mergerfsdisk4",
+    fstype: btrfs,
+    state: mounted,
+    content: false,
+    opts: subvol=@data,
+  }
+  - {
+    path: /mnt/snapraid-data/disk5,
+    src: "LABEL=mergerfsdisk5",
+    fstype: btrfs,
+    state: mounted,
+    content: false,
+    opts: subvol=@data,
+  }
+  - {
+    path: /mnt/snapraid-data/disk6,
+    src: "LABEL=mergerfsdisk6",
+    fstype: btrfs,
+    state: mounted,
+    content: false,
+    opts: subvol=@data,
+  }
