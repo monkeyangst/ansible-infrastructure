@@ -19,6 +19,7 @@ favorite_packages:
   - 'nmap'
   - openssh-server
   - open-vm-tools
+  - pv
   - qemu-guest-agent
   - rsync
   - screen
@@ -31,4 +32,6 @@ favorite_packages:
   - util-linux
   - wget
   - zsh
+  - zsh-syntax-highlighting
+  - zsh-autosuggestions
   - cifs-utils

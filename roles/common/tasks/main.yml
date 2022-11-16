@@ -1,0 +1,15 @@
+---
+# - name: Update Timezone to Chicago
+#   ansible.builtin.copy:
+#     content: "America/Chicago\n"
+#     dest: /etc/timezone
+#     owner: root
+#     group: root
+#     mode: 0644
+#   become: true
+#   register: timezone
+#   notify: Reconfigure Timezone Data
+
+- name: Set Timezone
+  community.general.timezone:
+    name: America/Chicago

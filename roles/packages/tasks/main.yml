@@ -4,20 +4,30 @@
     update_cache: true
     force_apt_get: true
     cache_valid_time: 86400 # one day
+  register: aptcache
 
-- name: Upgrade all apt packages
+- name: Upgrade packages
   ansible.builtin.apt:
     upgrade: dist
-    force _apt_get: true
-  when: upgrade_packages
+  tags: optional
 
 - name: Check if a reboot is needed for Debian and Ubuntu boxes
-  register: reboot_required_file
   ansible.builtin.stat:
     path: /var/run/reboot-required
     get_md5: false
-- name: Install the packages I like
+  register: reboot_required_file
+
+- name: Reboot if necessary
+  ansible.builtin.reboot:
+  when: reboot_required_file.stat.exists
+
+- name: Install additional packages
   ansible.builtin.package:
-    name: "{{ favorite_packages }}"
+    name: "{{ additional_packages }}"
     state: present
-    
+
+# - name: Install the packages I like
+#   ansible.builtin.package:
+#     name: "{{ favorite_packages }}"
+#     state: present
+#   tags: optional

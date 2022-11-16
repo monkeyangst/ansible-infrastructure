@@ -1,0 +1,316 @@
+---
+# Packages needed only by the media server
+additional_packages:
+  - snapraid
+  - mergerfs
+  - docker.io
+  - docker-compose
+
+
+bazarr_version: "1.1.2"
+heimdall_version: "2.4.15"
+jackett_version: "0.20.2247"
+lidarr_version: "1.0.2"
+plex_version: "1.29.2"
+radarr_version: "4.2.4"
+sonarr_version: "3.0.9"
+tautulli_version: "2.10.5"
+transmission_version: "4.2"
+
+plex_env:
+  - VERSION=docker
+  - PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR=/config
+
+transmission_env:
+  - UMASK_SET=022
+  - OPENVPN_PROVIDER=OVPN
+  - OPENVPN_CONFIG=standard.us.dallas.tcp
+  - OPENVPN_USERNAME={{ ovpn_username }}
+  - OPENVPN_PASSWORD={{ ovpn_password }}
+  - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+  - LOCAL_NETWORK=10.0.1.0/24,100.64.0.0/10
+  - TRANSMISSION_ALT_SPEED_DOWN=100
+  - TRANSMISSION_DOWNLOAD_DIR=/data
+  - TRANSMISSION_INCOMPLETE_DIR=/data/incomplete
+  - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
+  - TRANSMISSION_MESSAGE_LEVEL=1
+  - TRANSMISSION_PEER_PORT=52403
+  - TRANSMISSION_PEER_PORT_RANDOM_ON_START=false
+  - TRANSMISSION_PORT_FORWARDING_ENABLED=true
+  - TRANSMISSION_RATIO_LIMIT=20
+  - TRANSMISSION_RATIO_LIMIT_ENABLED=true
+  - TRANSMISSION_RPC_ENABLED=true
+  - TRANSMISSION_RPC_PORT=9091
+  - TRANSMISSION_RPC_WHITELIST=127.0.0.1,*
+  - TRANSMISSION_WATCH_DIR=/data/watch
+  - TRANSMISSION_WATCH_DIR_ENABLED=true
+  - WEBPROXY_ENABLED=false
+
+containers:
+  - service_name: heimdall
+    environment: "{{ global_env_vars }}"
+    active: true
+    image: lscr.io/linuxserver/heimdall:{{ heimdall_version }}
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - "/opt/appdata/heimdall:/config"
+    restart: unless-stopped
+
+  - service_name: jackett
+    environment: "{{ global_env_vars }}"
+    container_name: jackett
+    active: true
+    image: lscr.io/linuxserver/jackett:{{ jackett_version }}
+    ports:
+      - 9117:9117
+    volumes:
+      - "/opt/appdata:/config"
+      - "/mnt/storage/downloads:/downloads"
+    restart: unless-stopped
+
+  - service_name: sonarr
+    container_name: sonarr
+    active: true
+    image: lscr.io/linuxserver/sonarr:{{ sonarr_version }}
+    environment: "{{ global_env_vars }}"
+    ports:
+      - 8989:8989
+    volumes:
+      - "/opt/appdata/NzbDrone:/config"
+      - "/mnt/storage:/data"
+    restart: unless-stopped
+
+  - service_name: radarr
+    container_name: radarr
+    active: true
+    image: lscr.io/linuxserver/radarr:{{ radarr_version }}
+    environment: "{{ global_env_vars }}"
+    ports:
+      - 7878:7878
+    volumes:
+      - /opt/appdata/Radarr:/config
+      - /mnt/storage:/data
+    restart: unless-stopped
+
+  - service_name: lidarr
+    active: true
+    image: lscr.io/linuxserver/lidarr:{{ lidarr_version }}
+    container_name: lidarr
+    environment: "{{ global_env_vars }}"
+    volumes:
+      - /opt/appdata/lidarr:/config
+      - /mnt/storage:/data
+    ports:
+      - 8686:8686
+    restart: unless-stopped
+
+
+  - service_name: tautulli
+    container_name: tautulli
+    environment: "{{ global_env_vars }}"
+    active: true
+    image: lscr.io/linuxserver/tautulli:{{ tautulli_version }}
+    volumes:
+      - /opt/appdata/tautulli:/config
+    ports:
+      - 8181:8181
+    restart: unless-stopped
+
+  - service_name: bazarr
+    container_name: bazarr
+    environment: "{{ global_env_vars }}"
+    active: true
+    image: lscr.io/linuxserver/bazarr:{{ bazarr_version }}
+    ports:
+      - 6767:6767
+    volumes:
+      - /opt/appdata/bazarr:/config
+      - /mnt/storage/newhamsterdam/movies:/movies
+      - /mnt/storage/newhamsterdam/tv:/tv
+    restart: unless-stopped
+
+  - service_name: plex
+    image: lscr.io/linuxserver/plex:{{ plex_version }}
+    container_name: plex
+    active: true
+    hostname: fozzie
+    network_mode: host
+    devices:
+      - /dev/dri:/dev/dri
+    environment: "{{ global_env_vars + plex_env }}"
+    volumes:
+      - '/mnt/storage/newhamsterdam/tv:/tv'
+      - '/mnt/storage/newhamsterdam/movies:/movies'
+      - '/mnt/storage/newhamsterdam/music:/music'
+      - '/opt/appdata:/config'
+    restart: unless-stopped
+
+  - service_name: transmission-openvpn
+    container_name: transmission
+    active: true
+    environment: "{{ global_env_vars + transmission_env }}"
+    image: haugene/transmission-openvpn:{{ transmission_version }}
+    volumes:
+      - /mnt/storage/downloads/:/data
+    cap_add:
+      - NET_ADMIN
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - '9091:9091'
+    restart: unless-stopped
+
+
+## snapraid
+snapraid_config_excludes:
+  - "*.unrecoverable"
+  - "/tmp/"
+  - "/lost+found/"
+  - "downloads/"
+  - "appdata/"
+  - "*.!sync"
+  - ".AppleDouble"
+  - "._AppleDoubsudo le"
+  - ".DS_Store"
+  - "._.DS_Store"
+  - ".Thumbs.db"
+  - ".fseventsd"
+  - ".Spotlight-V100"
+  - ".TemporaryItems"
+  - ".Trashes"
+  - ".AppleDB"
+  - ".nfo"
+
+# snapraid drives
+snapraid_parity_disks:
+  - {
+    path: /mnt/snapraid-parity/p1,
+    diskbylabel: LABEL=snapraid_p01,
+    fs: ext4,
+    opts: defaults,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-parity/p2,
+    diskbylabel: LABEL=snapraid_p02,
+    fs: ext4,
+    opts: defaults,
+    state: mounted,
+    content: false,
+  }
+
+snapraid_data_disks:
+  - {
+    path: /mnt/snapraid-data/disk1,
+    diskbylabel: LABEL=mergerfsdisk1,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-data/disk2,
+    diskbylabel: LABEL=mergerfsdisk2,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-data/disk3,
+    diskbylabel: LABEL=mergerfsdisk3,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-data/disk4,
+    diskbylabel: LABEL=mergerfsdisk4,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-data/disk5,
+    diskbylabel: LABEL=mergerfsdisk5,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-data/disk6,
+    diskbylabel: LABEL=mergerfsdisk6,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+
+snapraid_content_disks:
+  - {
+    path: /mnt/snapraid-content/disk1,
+    diskbylabel: LABEL=mergerfsdisk1,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+  - {
+    path: /mnt/snapraid-content/disk2,
+    diskbylabel: LABEL=mergerfsdisk2,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+  - {
+    path: /mnt/snapraid-content/disk3,
+    diskbylabel: LABEL=mergerfsdisk3,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+  - {
+    path: /mnt/snapraid-content/disk4,
+    diskbylabel: LABEL=mergerfsdisk4,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+  - {
+    path: /mnt/snapraid-content/disk5,
+    diskbylabel: LABEL=mergerfsdisk5,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+  - {
+    path: /mnt/snapraid-content/disk6,
+    diskbylabel: LABEL=mergerfsdisk6,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+
+fstab_mergerfs:
+  - {
+    source: "/mnt/snapraid-data/disk*",
+    mountpoint: "/mnt/storage",
+    fs: fuse.mergerfs,
+    opts: "defaults,nonempty,allow_other,use_ino,moveonenospc=true,category.create=epmfs,dropcacheonclose=true,minfreespace=2G,fsname=mergerfs"
+  }
