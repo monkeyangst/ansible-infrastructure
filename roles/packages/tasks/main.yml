@@ -9,6 +9,7 @@
 - name: Upgrade packages
   ansible.builtin.apt:
     upgrade: dist
+  tags: optional
 
 - name: Check if a reboot is needed for Debian and Ubuntu boxes
   ansible.builtin.stat:
@@ -20,7 +21,13 @@
   ansible.builtin.reboot:
   when: reboot_required_file.stat.exists
 
-- name: Install the packages I like
+- name: Install additional packages
   ansible.builtin.package:
-    name: "{{ favorite_packages }}"
+    name: "{{ additional_packages }}"
     state: present
+
+# - name: Install the packages I like
+#   ansible.builtin.package:
+#     name: "{{ favorite_packages }}"
+#     state: present
+#   tags: optional
