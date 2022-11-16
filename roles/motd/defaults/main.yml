@@ -1,9 +1,5 @@
 ---
 # defaults file for motd
-system_manager: admin@example.com
-
-motd_text: "THIS IS AN EXAMPLE"
-
 motd_file: "motd_{{ hostname }}"
 
 motd_files_remove:

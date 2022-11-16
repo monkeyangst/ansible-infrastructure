@@ -1,17 +1,4 @@
 ---
-# - name: Copy motd file
-#   ansible.builtin.template:
-#     src: templates/motd.j2
-#     dest: /etc/motd
-#     owner: root
-#     group: root
-#     mode: 0444
-
-# - name: Copy local motd file if one has been created
-#   ansible.builtin.local_action: stat
-#     path: "files/{{ motd_file }}"
-#   register: result
-
 - name: Copy file if it exists
   ansible.builtin.copy:
     src: "{{ motd_file }}"
