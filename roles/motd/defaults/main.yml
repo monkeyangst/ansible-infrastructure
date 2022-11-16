@@ -1,3 +1,15 @@
 ---
 # defaults file for motd
 system_manager: admin@example.com
+
+motd_text: "THIS IS AN EXAMPLE"
+
+motd_file: "motd_{{ hostname }}"
+
+motd_files_remove:
+  - "10-help-text"
+  - "50-landscape-sysinfo"
+  - "88-esm-announce"
+  - "91-contract-ua-esm-status"
+  - "95-hwe-eol"
+  - "97-overlayroot"
