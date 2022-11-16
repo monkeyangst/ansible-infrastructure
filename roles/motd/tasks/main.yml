@@ -1,11 +1,29 @@
 ---
-- name: Copy file if it exists
-  ansible.builtin.copy:
-    src: "{{ motd_file }}"
-    dest: "/etc/update-motd.d/01-banner"
-    mode: 0755
+# Gives each host a 01-banner file in /etc/update-motd
+# In cases where I haven't made a custom banner, install
+# figlet ()
+- name: Ensure figlet is installed
+  ansible.builtin.package:
+    name: "figlet"
+    state: present
 
-- name: Remove 10-help-text file
+- name: Spit out hostname
+  ansible.builtin.debug:
+    msg: "{{ ansible_hostname }}"
+
+- name: Template a file
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: /etc/update-motd.d/01-banner
+    mode: 0755
+  loop: "{{ query('first_found', {'files': myfiles, 'paths': mypaths}) }}"
+  vars:
+    myfiles:
+      - "motd_{{ ansible_hostname }}.j2"
+      - "motd_default.j2"
+    mypaths: ["templates/", "../templates"]
+
+- name: Remove unwanted motd files
   ansible.builtin.file:
     path: "/etc/update-motd.d/{{ item }}"
     state: absent

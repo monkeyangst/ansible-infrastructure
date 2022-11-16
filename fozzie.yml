@@ -4,6 +4,7 @@
 - name: Set up Fozzie
   hosts: all
   vars_files:
+    - 'vars/main.yml'
     - 'vars/vault.yml'
 
   become: true
@@ -25,8 +26,8 @@
 
   roles:
     - role: common
-      tags: testing
     - role: motd
+      tags: testing
     # - role: fozzie_network
     #   tags: testing
     - role: fozzie_drives

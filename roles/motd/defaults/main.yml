@@ -1,10 +1,11 @@
 ---
 # defaults file for motd
-motd_file: "motd_{{ hostname }}"
+motd_file: "motd_{{ ansible_hostname }}"
 
 motd_files_remove:
   - "10-help-text"
   - "50-landscape-sysinfo"
+  - "50-motd-news"
   - "88-esm-announce"
   - "91-contract-ua-esm-status"
   - "95-hwe-eol"

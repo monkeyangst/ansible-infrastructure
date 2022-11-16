@@ -1,9 +1,9 @@
 ---
-- name: Do a debug thing
-  ansible.builtin.debug:
-    msg: "###### WE ARE HERE!!!! #####"
+# This file contains fixes for little Ubuntu-specific annoyances
+# Like, I don't want snapd.
 
 - name: Get rid of snapd
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: snapd
     state: absent
+    purge: true
