@@ -1,0 +1,8 @@
+---
+- name: Template out snapper template
+  ansible.builtin.template:
+    src: default.j2
+    dest: /etc/snapper/config-templates/mergerfsdisk
+    mode: 0644
+    owner: root
+    group: root

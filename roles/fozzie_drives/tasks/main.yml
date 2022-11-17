@@ -1,10 +1,11 @@
 ---
 # tasks file for fozzie-drives
-- name: Ensure snapraid and mergerfs packages are installed
+- name: Ensure snapraid/mergerfs/snapper packages are installed
   ansible.builtin.package:
     name:
       - mergerfs
       - snapraid
+      - snapper
     state: present
 
 - name: Create /mnt points
@@ -56,3 +57,6 @@
 #     src: files/etc/snapraid.conf
 #     dest: /etc/snapraid.conf
 #     mode: 0755
+
+- name: Configure snapper
+  ansible.builtin.include_tasks: snapper.yml
