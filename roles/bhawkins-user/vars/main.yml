@@ -1,0 +1,16 @@
+---
+# vars file for bhawkins-user
+my_users:
+  - {
+    name: "Brad Hawkins",
+    username: "bhawkins",
+    home: "/home/bhawkins",
+    shell: "/bin/zsh",
+  }
+  - {
+    name: "Floobio McFloob",
+    username: "floobio",
+    home: "/home/floobio",
+    shell: "/bin/bash",
+    password: "$6$rounds=656000$mysecretsalt$/2bJPNQpiutWuLnwQtUPqOPiML/2NxEbXmVyFAGwk3g6rb1pD7t0WyciPcianzmEhgn7138jIxFdecOkEGgPt0"
+  }

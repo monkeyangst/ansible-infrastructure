@@ -1,0 +1,7 @@
+---
+# defaults file for bhawkins-user
+dotfiles_repo: https://github.com/monkeyangst/dotfiles
+dotfiles_home: "$HOME"
+dotfiles_repo_local_destination: "$HOME/.dotfiles"
+dotfiles_repo_version: master
+dotfiles_repo_accept_hostkey: false

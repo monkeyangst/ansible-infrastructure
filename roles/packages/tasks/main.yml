@@ -30,4 +30,3 @@
   ansible.builtin.package:
     name: "{{ favorite_packages }}"
     state: present
-  tags: optional

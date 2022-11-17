@@ -1,0 +1,35 @@
+---
+# tasks file for bhawkins-user
+- name: Ensure zsh is installed
+  ansible.builtin.package:
+    name: zsh
+    state: present
+
+- name: Make sure bhawkins user is created
+  ansible.builtin.user:
+    name: "{{ item.username }}"
+    comment: "{{ item.name }}"
+    groups:
+      - users
+      - sudo
+      - adm
+    createhome: true
+    home: "{{ item.home }}"
+    shell: "{{ item.shell }}"
+    state: present
+  with_items: "{{ my_users }}"
+
+- name: Ensure dotfiles repository is cloned locally.
+  ansible.builtin.git:
+    repo: "{{ dotfiles_repo }}"
+    dest: "{{ dotfiles_repo_local_destination }}"
+    version: "{{ dotfiles_repo_version }}"
+    accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
+  become: false
+
+- name: Try using Stow
+  stow:
+    state: present
+    package: mc
+    dir: "{{ dotfiles_repo_local_destination }}"
+    target: '/home/bhawkins'
