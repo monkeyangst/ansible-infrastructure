@@ -30,6 +30,7 @@
     # - role: fozzie_network
     #   tags: testing
     - role: fozzie_drives
+      tags: drives
     - role: geerlingguy.docker
       tags: jeff
     - role: ironicbadger.docker_compose_generator

@@ -7,11 +7,7 @@
     name: "figlet"
     state: present
 
-- name: Spit out hostname
-  ansible.builtin.debug:
-    msg: "{{ ansible_hostname }}"
-
-- name: Template a file
+- name: Install motd banner
   ansible.builtin.template:
     src: "{{ item }}"
     dest: /etc/update-motd.d/01-banner

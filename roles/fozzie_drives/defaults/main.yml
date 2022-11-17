@@ -8,79 +8,162 @@ storage_opts: >
 data_opts: "subvol=@data"
 content_opts: "subvol=@content"
 
+snapraid_config_hidden_files_enabled: false
+snapraid_config_hidden_files: nohidden
+snapraid_config_path: /etc/snapraid.conf
+
+## snapraid
+snapraid_config_excludes:
+  - "*.unrecoverable"
+  - "/tmp/"
+  - "/lost+found/"
+  - "downloads/"
+  - "appdata/"
+  - "*.!sync"
+  - ".AppleDouble"
+  - "._AppleDouble"
+  - ".DS_Store"
+  - "._.DS_Store"
+  - ".Thumbs.db"
+  - ".fseventsd"
+  - ".Spotlight-V100"
+  - ".TemporaryItems"
+  - ".Trashes"
+  - ".AppleDB"
+  - ".nfo"
+
+# snapraid drives
+snapraid_parity_disks:
+  - {
+    path: /mnt/snapraid-parity/p1,
+    diskbylabel: LABEL=snapraid_p01,
+    fs: ext4,
+    opts: defaults,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-parity/p2,
+    diskbylabel: LABEL=snapraid_p02,
+    fs: ext4,
+    opts: defaults,
+    state: mounted,
+    content: false,
+  }
+
+snapraid_data_disks:
+  - {
+    path: /mnt/snapraid-data/disk1,
+    diskbylabel: LABEL=mergerfsdisk1,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-data/disk2,
+    diskbylabel: LABEL=mergerfsdisk2,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-data/disk3,
+    diskbylabel: LABEL=mergerfsdisk3,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-data/disk4,
+    diskbylabel: LABEL=mergerfsdisk4,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-data/disk5,
+    diskbylabel: LABEL=mergerfsdisk5,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+  - {
+    path: /mnt/snapraid-data/disk6,
+    diskbylabel: LABEL=mergerfsdisk6,
+    fs: btrfs,
+    opts: subvol=@data,
+    state: mounted,
+    content: false,
+  }
+
+snapraid_content_disks:
+  - {
+    path: /mnt/snapraid-content/disk1,
+    diskbylabel: LABEL=mergerfsdisk1,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+  - {
+    path: /mnt/snapraid-content/disk2,
+    diskbylabel: LABEL=mergerfsdisk2,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+  - {
+    path: /mnt/snapraid-content/disk3,
+    diskbylabel: LABEL=mergerfsdisk3,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+  - {
+    path: /mnt/snapraid-content/disk4,
+    diskbylabel: LABEL=mergerfsdisk4,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+  - {
+    path: /mnt/snapraid-content/disk5,
+    diskbylabel: LABEL=mergerfsdisk5,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+  - {
+    path: /mnt/snapraid-content/disk6,
+    diskbylabel: LABEL=mergerfsdisk6,
+    fs: btrfs,
+    opts: subvol=@content,
+    state: mounted,
+    content: true,
+  }
+
+snapraid_content_files:
+  - /var/snapraid.content
+  - /mnt/snapraid-content/disk1/snapraid.content
+  - /mnt/snapraid-content/disk2/snapraid.content
+  - /mnt/snapraid-content/disk3/snapraid.content
+  - /mnt/snapraid-content/disk4/snapraid.content
+  - /mnt/snapraid-content/disk5/snapraid.content
+  - /mnt/snapraid-content/disk6/snapraid.content
+
 fstab_mergerfs:
   - {
     source: "/mnt/snapraid-data/disk*",
     mountpoint: "/mnt/storage",
     fs: fuse.mergerfs,
     opts: "defaults,nonempty,allow_other,use_ino,moveonenospc=true,category.create=epmfs,dropcacheonclose=true,minfreespace=2G,fsname=mergerfs"
-  }
-
-# Define Snapraid parity drives
-snapraid_parity_disks:
-  - {
-    path: /mnt/snapraid-parity/p1,
-    src: "LABEL=snapraid_p01",
-    fstype: ext4,
-    state: mounted,
-    content: false,
-    opts: defaults,
-  }
-  - {
-    path: /mnt/snapraid-parity/p2,
-    src: "LABEL=snapraid_p02",
-    fstype: ext4,
-    state: mounted,
-    content: false,
-    opts: defaults,
-  }
-
-snapraid_data_disks:
-  - {
-    path: /mnt/snapraid-data/disk1,
-    src: "LABEL=mergerfsdisk1",
-    fstype: btrfs,
-    state: mounted,
-    content: false,
-    opts: subvol=@data,
-  }
-  - {
-    path: /mnt/snapraid-data/disk2,
-    src: "LABEL=mergerfsdisk2",
-    fstype: btrfs,
-    state: mounted,
-    content: false,
-    opts: subvol=@data,
-  }
-  - {
-    path: /mnt/snapraid-data/disk3,
-    src: "LABEL=mergerfsdisk3",
-    fstype: btrfs,
-    state: mounted,
-    content: false,
-    opts: subvol=@data,
-  }
-  - {
-    path: /mnt/snapraid-data/disk4,
-    src: "LABEL=mergerfsdisk4",
-    fstype: btrfs,
-    state: mounted,
-    content: false,
-    opts: subvol=@data,
-  }
-  - {
-    path: /mnt/snapraid-data/disk5,
-    src: "LABEL=mergerfsdisk5",
-    fstype: btrfs,
-    state: mounted,
-    content: false,
-    opts: subvol=@data,
-  }
-  - {
-    path: /mnt/snapraid-data/disk6,
-    src: "LABEL=mergerfsdisk6",
-    fstype: btrfs,
-    state: mounted,
-    content: false,
-    opts: subvol=@data,
   }
