@@ -36,3 +36,5 @@
     - role: ironicbadger.docker_compose_generator
     - role: bhawkins-user
       tags: testing
+    - role: artis3n.tailscale
+      tags: tailscale
