@@ -1,2 +1,26 @@
 ---
 hostname: "fozzie"
+
+# These volumes exist only on Fozzie and not on any test machines
+additional_disks:
+  - {
+    path: /opt,
+    src: UUID=231a1062-00f7-4701-9f97-b898d3e29fa2,
+    fs: btrfs,
+    opts: subvol=@opt,
+    state: mounted,
+  }
+  - {
+    path: /home,
+    src: UUID=231a1062-00f7-4701-9f97-b898d3e29fa2,
+    fs: btrfs,
+    opts: subvol=@home,
+    state: mounted,
+  }
+  - {
+    path: /downloads,
+    src: LABEL=downloads,
+    fs: btrfs,
+    opts: subvol=@downloads,
+    state: mounted,
+  }

@@ -23,7 +23,7 @@
 - name: Mount disks
   ansible.posix.mount:
     name: "{{ item.path }}"
-    src: "{{ item.diskbylabel }}"
+    src: "{{ item.src }}"
     fstype: "{{ item.fs }}"
     opts: "{{ item.opts }}"
     state: mounted
@@ -31,6 +31,7 @@
     - "{{ snapraid_parity_disks }}"
     - "{{ snapraid_data_disks }}"
     - "{{ snapraid_content_disks }}"
+    - "{{ additional_disks }}"
   when: item.path != '/mnt/storage'
 
 
@@ -52,11 +53,9 @@
     mode: 0755
     owner: root
     group: root
-# - name: Copy snapraid config file
-#   ansible.builtin.copy:
-#     src: files/etc/snapraid.conf
-#     dest: /etc/snapraid.conf
-#     mode: 0755
 
 - name: Configure snapper
-  ansible.builtin.include_tasks: snapper.yml
+  ansible.builtin.include_role:
+    name: ansible-role-snapper
+  vars:
+    snapper_configs: "{{ snapraid_data_disks }}"

@@ -163,3 +163,7 @@ containers:
     ports:
       - '9091:9091'
     restart: unless-stopped
+
+snapper_templates:
+  mergerfsdisk:
+    TIMELINE_CREATE: false
