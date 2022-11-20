@@ -193,4 +193,3 @@ fstab_mergerfs:
 snapper:
   path: "/"
   timeline_create: false
-  
