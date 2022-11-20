@@ -59,3 +59,20 @@
     name: ansible-role-snapper
   vars:
     snapper_configs: "{{ snapraid_data_disks }}"
+
+- name: Ensure snapraid-btrfs repository is cloned locally.
+  ansible.builtin.git:
+    repo: "https://github.com/automorphism88/snapraid-btrfs.git"
+    dest: "/opt/snapraid-btrfs"
+    version: "v0.14.1"
+    # accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
+  become: true
+
+- name: Copy snapraid-btrfs script to /usr/local/bin
+  ansible.builtin.file:
+    src: "/opt/snapraid-btrfs/snapraid-btrfs"
+    dest: "/usr/local/bin/snapraid-btrfs"
+    mode: "0755"
+    owner: "root"
+    group: "root"
+    state: link

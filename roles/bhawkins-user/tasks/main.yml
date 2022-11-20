@@ -19,6 +19,17 @@
     state: present
   with_items: "{{ my_users }}"
 
+# nano insists that we create this for them as their majesty won't get their
+# hands dirty.
+- name: Ensure that ~/.local/share dir exists
+  ansible.builtin.file:
+    path: "{{ item.home }}/.local/share"
+    owner: "{{ item.username }}"
+    group: "{{ item.username }}"
+    mode: 0700
+    state: directory
+  with_items: "{{ my_users }}"
+
 - name: Ensure dotfiles repository is cloned locally.
   ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
@@ -27,9 +38,19 @@
     accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
   become: false
 
+- name: Debug local destination
+  ansible.builtin.debug:
+    msg: "{{ dotfiles_repo_local_destination }}"
+
 - name: Try using Stow
   stow:
     state: present
-    package: mc
+    package: "{{ item }}"
     dir: "{{ dotfiles_repo_local_destination }}"
-    target: '/home/bhawkins'
+    target: "{{ dotfiles_home }}"
+  with_items:
+    - 'mc'
+    - 'nano'
+    - 'zsh'
+    - 'tmux'
+    - 'iterm2'
