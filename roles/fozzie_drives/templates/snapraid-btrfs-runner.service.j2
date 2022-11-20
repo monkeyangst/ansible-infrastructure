@@ -1,0 +1,6 @@
+[Unit]
+Description=Run snapraid-btrfs-runner every night
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/snapraid-btrfs-runner/snapraid-btrfs-runner.py -c /opt/snapraid-btrfs-runner/snapraid-btrfs-runner.conf

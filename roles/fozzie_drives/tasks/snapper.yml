@@ -1,0 +1,14 @@
+---
+- name: Ensure snapper is installed
+  ansible.builtin.package:
+    name: snapper
+    state: present
+  vars:
+    snapper:
+      timeline_create: "false"
+      path: "/"
+
+- name: Template out the template file
+  ansible.builtin.template:
+    src: "templates/snapper-template-mergerfsdisk.j2"
+    mode: 0744

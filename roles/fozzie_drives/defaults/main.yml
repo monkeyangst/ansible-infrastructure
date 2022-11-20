@@ -187,3 +187,10 @@ fstab_mergerfs:
     fs: fuse.mergerfs,
     opts: "defaults,nonempty,allow_other,use_ino,moveonenospc=true,category.create=epmfs,dropcacheonclose=true,minfreespace=2G,fsname=mergerfs"
   }
+
+
+# Snapper snapper_configs
+snapper:
+  path: "/"
+  timeline_create: false
+  
