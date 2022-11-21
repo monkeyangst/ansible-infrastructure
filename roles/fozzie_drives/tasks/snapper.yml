@@ -12,3 +12,9 @@
   ansible.builtin.template:
     src: "templates/snapper-template-mergerfsdisk.j2"
     mode: 0744
+
+- name: Template out the config files
+  ansible.builtin.template:
+    src: "templates/snapper-template-mergerfsdisk.j2"
+    path: "{{ item.path }}"
+    
