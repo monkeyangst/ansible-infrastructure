@@ -4,6 +4,7 @@
     repo: "https://github.com/automorphism88/snapraid-btrfs.git"
     dest: "/opt/snapraid-btrfs"
     version: "v0.14.1"
+    force: true
     # accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
   become: true
   tags: snapraid-btrfs

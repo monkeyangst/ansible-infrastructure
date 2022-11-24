@@ -4,3 +4,6 @@ roles:
   - name: geerlingguy.docker
   - name: artis3n.tailscale
   - name: ironicbadger.docker_compose_generator
+
+collections:
+  - name: vladgh.samba

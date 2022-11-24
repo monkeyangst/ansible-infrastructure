@@ -31,6 +31,7 @@ file = {{ snapraid_log }}
 ; maximum logfile size in KiB, leave empty for infinite
 maxsize = 5000
 
+{% if smtp_username is defined %}
 [email]
 ; when to send an email, comma-separated list of [success, error]
 sendon = success,error
@@ -49,8 +50,9 @@ port = {{ smtp_port }}
 ; set to "true" to activate
 ssl = {{ smtp_ssl }}
 tls = {{ smtp_tls }}
-user = {{ smtp_user }}
+user = {{ smtp_username }}
 password = {{ smtp_password }}
+{% endif %}
 
 [scrub]
 ; set to true to run scrub after sync
