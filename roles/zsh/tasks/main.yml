@@ -1,6 +1,6 @@
 ---
 - name: Ensure ZSH installed
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: zsh
   become: true
   when: ansible_os_family == "Debian"

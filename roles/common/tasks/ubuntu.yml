@@ -3,7 +3,7 @@
 # Like, I don't want snapd.
 
 - name: Get rid of snapd
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: snapd
     state: absent
     purge: true
