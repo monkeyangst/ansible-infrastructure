@@ -1,6 +1,6 @@
 
 # subvolume to snapshot
-SUBVOLUME="{{ snapper.path }}"
+SUBVOLUME="{{ item.path }}"
 
 # filesystem type
 FSTYPE="btrfs"
@@ -41,7 +41,7 @@ NUMBER_LIMIT_IMPORTANT="10"
 
 
 # create hourly snapshots
-TIMELINE_CREATE="{{ snapper.timeline_create }}"
+TIMELINE_CREATE="{{ snapper_timeline_create }}"
 
 # cleanup hourly snapshots after some time
 TIMELINE_CLEANUP="yes"

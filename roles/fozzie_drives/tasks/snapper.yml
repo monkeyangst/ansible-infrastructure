@@ -8,13 +8,15 @@
       timeline_create: "false"
       path: "/"
 
-- name: Template out the template file
-  ansible.builtin.template:
-    src: "templates/snapper-template-mergerfsdisk.j2"
-    mode: 0744
+# - name: Template out the template file
+#   ansible.builtin.template:
+#     src: "templates/snapper-template-mergerfsdisk.j2"
+#     mode: 0644
 
 - name: Template out the config files
   ansible.builtin.template:
     src: "templates/snapper-template-mergerfsdisk.j2"
-    path: "{{ item.path }}"
-    
+    dest: "{{ snapper_config_dir }}/{{ item.name }}"
+    mode: 0644
+  with_items:
+    - "{{ snapraid_data_disks }}"

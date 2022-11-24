@@ -11,8 +11,8 @@
 - name: Copy snapraid-btrfs script to /usr/local/bin
   ansible.builtin.file:
     src: "/opt/snapraid-btrfs/snapraid-btrfs"
-    dest: "/usr/local/bin/snapraid-btrfs"
-    mode: "0755"
+    dest: "{{ snapraid_btrfs_bin }}"
+    mode: "0644"
     owner: "root"
     group: "root"
     state: link
@@ -25,6 +25,12 @@
     version: "v0.0.2"
   become: true
   tags: snapraid-btrfs
+
+- name: Template out snapraid-btrfs-runner config file
+  ansible.builtin.template:
+    src: "templates/snapraid-btrfs-runner.conf.j2"
+    dest: "{{ snapraid_btrfs_runner_config }}"
+    mode: 0644
 
 - name: Template out service file
 # TODO: Make it a true template, with, you know, variables
