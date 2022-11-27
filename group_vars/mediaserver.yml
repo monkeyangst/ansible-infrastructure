@@ -6,13 +6,14 @@ additional_packages:
 
 bazarr_version: "1.1.2"
 heimdall_version: "2.4.15"
-jackett_version: "0.20.2247"
+jackett_version: "0.20.2285"
 lidarr_version: "1.0.2"
 plex_version: "1.29.2"
 radarr_version: "4.2.4"
 sonarr_version: "3.0.9"
 tautulli_version: "2.10.5"
 transmission_version: "4.2"
+prowlarr_version: "0.4.10-nightly"
 
 plex_env:
   - VERSION=docker
@@ -44,6 +45,25 @@ transmission_env:
   - WEBPROXY_ENABLED=false
 
 containers:
+  - service_name: transmission-openvpn
+    container_name: transmission
+    active: true
+    environment: "{{ global_env_vars + transmission_env }}"
+    image: haugene/transmission-openvpn:{{ transmission_version }}
+    volumes:
+      - /mnt/storage/downloads/:/data
+    cap_add:
+      - NET_ADMIN
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - '9091:9091'
+    restart: unless-stopped
   - service_name: heimdall
     environment: "{{ global_env_vars }}"
     active: true
@@ -143,25 +163,15 @@ containers:
       - '/mnt/storage/newhamsterdam/music:/music'
       - '/opt/appdata:/config'
     restart: unless-stopped
-
-  - service_name: transmission-openvpn
-    container_name: transmission
+  - service_name: prowlarr
+    container_name: prowlarr
     active: true
-    environment: "{{ global_env_vars + transmission_env }}"
-    image: haugene/transmission-openvpn:{{ transmission_version }}
-    volumes:
-      - /mnt/storage/downloads/:/data
-    cap_add:
-      - NET_ADMIN
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
+    environment: "{{ global_env_vars }}"
+    image: lscr.io/linuxserver/prowlarr:{{ prowlarr_version }}
     ports:
-      - '9091:9091'
+      - 9696:9696
+    volumes:
+      - /opt/appdata/prowlarr:/config
     restart: unless-stopped
 
 snapper_templates:

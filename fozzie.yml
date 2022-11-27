@@ -15,15 +15,6 @@
       vars:
         upgrade_packages: true
 
-  vars:
-    docker_edition: 'ce'
-    docker_service_manage: true
-    docker_service_state: started
-    docker_service_enabled: true
-    docker_restart_handler_state: restarted
-    docker_users:
-      - bhawkins
-
   roles:
     - role: common
     - role: motd
@@ -36,8 +27,8 @@
     - role: ironicbadger.docker_compose_generator
     - role: bhawkins-user
       tags: testing
-    - role: artis3n.tailscale
-      tags: tailscale
+    # - role: artis3n.tailscale
+    #   tags: tailscale
     - role: vladgh.samba.server
       tags: samba
       no_log: false

@@ -64,9 +64,7 @@
 - name: Include snapper setup
   ansible.builtin.include_tasks:
     file: snapper.yml
-  tags: snapraid-btrfs
 
 - name: Install/configure snapraid-btrfs
   ansible.builtin.include_tasks:
     file: snapraid-btrfs.yml
-  tags: snapraid-btrfs

@@ -1,12 +1,27 @@
 ---
-- name: New user setup
+- name: Set up a generic server
   hosts: all
   become: true
-  roles:
-    - packages
+  pre_tasks:
+    - name: Ensure packages are updated and upgraded
+      ansible.builtin.import_role:
+        name: packages
+      vars:
+        upgrade_packages: true
   tasks:
     - name: Ping my hosts
       ansible.builtin.ping:
     - name: Print message
       ansible.builtin.debug:
         msg: Hello World
+
+  roles:
+    - role: common
+    - role: motd
+    # - role: fozzie_network
+    #   tags: testing
+    - role: geerlingguy.docker
+      tags: jeff
+    - role: ironicbadger.docker_compose_generator
+    - role: bhawkins-user
+      tags: testing

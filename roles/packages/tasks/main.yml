@@ -2,12 +2,12 @@
 - name: Update package cache
   ansible.builtin.package:
     update_cache: true
-    cache_valid_time: 86400 # one day
+    # cache_valid_time: 86400 # one day
   register: aptcache
 
 - name: Upgrade packages
   ansible.builtin.package:
-    upgrade: dist
+    upgrade: true
   tags: optional
 
 - name: Check if a reboot is needed for Debian and Ubuntu boxes
@@ -22,10 +22,12 @@
 
 - name: Install additional packages
   ansible.builtin.package:
-    name: "{{ additional_packages }}"
+    name: "{{ item }}"
     state: present
+  with_items: "{{ additional_packages }}"
 
 - name: Install the packages I like
   ansible.builtin.package:
-    name: "{{ favorite_packages }}"
+    name: "{{ item }}"
     state: present
+  with_items: "{{ favorite_packages }}"

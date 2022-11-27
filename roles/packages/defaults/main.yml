@@ -8,16 +8,13 @@ favorite_packages:
   - htop
   - "iftop"
   - "iotop"
-  - lm-sensors
+  # - lm-sensors #  Only for ubuntu?
   - mc
   - most
   - mutt
   - nano
   - ncdu
-  - neofetch
   - net-tools
-  - 'nmap'
-  - openssh-server
   - open-vm-tools
   - pv
   - qemu-guest-agent
@@ -25,7 +22,6 @@ favorite_packages:
   - screen
   - smartmontools
   - stow
-  - sudo
   - tmux
   - tree
   - unzip
@@ -35,3 +31,5 @@ favorite_packages:
   - zsh-syntax-highlighting
   - zsh-autosuggestions
   - cifs-utils
+
+additional_packages: []

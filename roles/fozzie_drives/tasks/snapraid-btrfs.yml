@@ -7,7 +7,6 @@
     force: true
     # accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
   become: true
-  tags: snapraid-btrfs
 
 - name: Copy snapraid-btrfs script to /usr/local/bin
   ansible.builtin.file:
@@ -17,7 +16,6 @@
     owner: "root"
     group: "root"
     state: link
-  tags: snapraid-btrfs
 
 - name: Ensure that snapraid-btrfs-runner is installed
   ansible.builtin.git:
@@ -25,7 +23,6 @@
     dest: "/opt/snapraid-btrfs-runner"
     version: "v0.0.2"
   become: true
-  tags: snapraid-btrfs
 
 - name: Template out snapraid-btrfs-runner config file
   ansible.builtin.template:
@@ -39,4 +36,16 @@
     src: "templates/snapraid-btrfs-runner.service.j2"
     dest: "/etc/systemd/system/snapraid-btrfs-runner.service"
     mode: 0755
-  tags: snapraid-btrfs
+
+- name: Template out timer file
+# TODO: Make it a true template, with, you know, variables
+  ansible.builtin.template:
+    src: "templates/snapraid-btrfs-runner.timer.j2"
+    dest: "/etc/systemd/system/snapraid-btrfs-runner.timer"
+    mode: 0755
+
+- name: Enable a timer unit for snapraid-btrfs-runner
+  ansible.builtin.systemd:
+    name: snapraid-btrfs-runner.timer
+    state: started
+    enabled: true
