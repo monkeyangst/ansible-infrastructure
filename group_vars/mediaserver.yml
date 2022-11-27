@@ -96,7 +96,7 @@ containers:
       - 8989:8989
     volumes:
       - "/opt/appdata/sonarr:/config"
-      - "/mnt/storage:/data"
+      - "/mnt/storage/newhamsterdam:/data"
     restart: unless-stopped
 
   - service_name: radarr
@@ -108,7 +108,7 @@ containers:
       - 7878:7878
     volumes:
       - /opt/appdata/radarr:/config
-      - /mnt/storage:/data
+      - /mnt/storage/newhamsterdam:/data
     restart: unless-stopped
 
   - service_name: lidarr
@@ -118,7 +118,7 @@ containers:
     environment: "{{ global_env_vars }}"
     volumes:
       - /opt/appdata/lidarr:/config
-      - /mnt/storage:/data
+      - /mnt/storage/newhamsterdam:/data
     ports:
       - 8686:8686
     restart: unless-stopped
