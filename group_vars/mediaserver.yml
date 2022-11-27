@@ -75,17 +75,17 @@ containers:
       - "/opt/appdata/heimdall:/config"
     restart: unless-stopped
 
-  - service_name: jackett
-    environment: "{{ global_env_vars }}"
-    container_name: jackett
-    active: true
-    image: lscr.io/linuxserver/jackett:{{ jackett_version }}
-    ports:
-      - 9117:9117
-    volumes:
-      - "/opt/appdata:/config"
-      - "/mnt/storage/downloads:/downloads"
-    restart: unless-stopped
+  # - service_name: jackett
+  #   environment: "{{ global_env_vars }}"
+  #   container_name: jackett
+  #   active: true
+  #   image: lscr.io/linuxserver/jackett:{{ jackett_version }}
+  #   ports:
+  #     - 9117:9117
+  #   volumes:
+  #     - "/opt/appdata:/config"
+  #     - "/mnt/storage/downloads:/downloads"
+  #   restart: unless-stopped
 
   - service_name: sonarr
     container_name: sonarr
@@ -97,6 +97,7 @@ containers:
     volumes:
       - "/opt/appdata/sonarr:/config"
       - "/mnt/storage/newhamsterdam:/data"
+      - "/mnt/storage/downloads:/data/downloads"
     restart: unless-stopped
 
   - service_name: radarr
@@ -109,6 +110,7 @@ containers:
     volumes:
       - /opt/appdata/radarr:/config
       - /mnt/storage/newhamsterdam:/data
+      - /mnt/storage/downloads:/data/downloads
     restart: unless-stopped
 
   - service_name: lidarr
@@ -119,6 +121,7 @@ containers:
     volumes:
       - /opt/appdata/lidarr:/config
       - /mnt/storage/newhamsterdam:/data
+      - /mnt/storage/downloads:/data/downloads
     ports:
       - 8686:8686
     restart: unless-stopped
