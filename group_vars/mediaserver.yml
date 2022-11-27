@@ -51,7 +51,7 @@ containers:
     environment: "{{ global_env_vars + transmission_env }}"
     image: haugene/transmission-openvpn:{{ transmission_version }}
     volumes:
-      - /mnt/storage/downloads/:/data
+      - /mnt/downloads/:/data
     cap_add:
       - NET_ADMIN
     logging:
@@ -84,7 +84,7 @@ containers:
   #     - 9117:9117
   #   volumes:
   #     - "/opt/appdata:/config"
-  #     - "/mnt/storage/downloads:/downloads"
+  #     - "/mnt/downloads:/downloads"
   #   restart: unless-stopped
 
   - service_name: sonarr
@@ -97,7 +97,7 @@ containers:
     volumes:
       - "/opt/appdata/sonarr:/config"
       - "/mnt/storage/newhamsterdam:/data"
-      - "/mnt/storage/downloads:/data/downloads"
+      - "/mnt/downloads:/data/downloads"
     restart: unless-stopped
 
   - service_name: radarr
@@ -110,7 +110,7 @@ containers:
     volumes:
       - /opt/appdata/radarr:/config
       - /mnt/storage/newhamsterdam:/data
-      - /mnt/storage/downloads:/data/downloads
+      - /mnt/downloads:/data/downloads
     restart: unless-stopped
 
   - service_name: lidarr
@@ -121,7 +121,7 @@ containers:
     volumes:
       - /opt/appdata/lidarr:/config
       - /mnt/storage/newhamsterdam:/data
-      - /mnt/storage/downloads:/data/downloads
+      - /mnt/downloads:/data/downloads
     ports:
       - 8686:8686
     restart: unless-stopped
