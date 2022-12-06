@@ -30,6 +30,15 @@
     state: directory
   with_items: "{{ my_users }}"
 
+- name: Check existence and ownership of ~/.config
+  ansible.builtin.file:
+    path: "{{ item.home }}/.config"
+    owner: "{{ item.username }}"
+    group: "{{ item.username }}"
+    mode: 0700
+    state: directory
+  with_items: "{{ my_users }}"
+
 - name: Ensure dotfiles repository is cloned locally.
   ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
@@ -44,6 +53,7 @@
     msg: "{{ dotfiles_repo_local_destination }}"
 
 - name: Try using Stow
+  become: false
   stow:
     state: present
     package: "{{ item }}"

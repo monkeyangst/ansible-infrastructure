@@ -20,8 +20,8 @@
     - role: motd
     # - role: fozzie_network
     #   tags: testing
-    - role: geerlingguy.docker
-      tags: jeff
-    - role: ironicbadger.docker_compose_generator
+    # - role: geerlingguy.docker
+    #   tags: jeff
+    # - role: ironicbadger.docker_compose_generator
     - role: bhawkins-user
       tags: testing
