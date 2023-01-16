@@ -31,17 +31,7 @@
     #   tags: tailscale
     - role: vladgh.samba.server
       tags: samba
-      no_log: false
       vars:
         # samba_users comes from vault
+        samba_mitigate_cve_2017_7494: false
         samba_apple_extensions: "yes"
-        samba_shares:
-          - name: NewHamsterdam
-            comment: "Oh you know"
-            path: "/mnt/storage/newhamsterdam"
-            read_only: "no"
-            guest_ok: "yes"
-            public: "yes"
-        samba_users:
-          - name: "bhawkins"
-          - password: "dummy"

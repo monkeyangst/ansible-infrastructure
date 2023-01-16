@@ -6,4 +6,8 @@ roles:
   - name: ironicbadger.docker_compose_generator
 
 collections:
-  - name: vladgh.samba
+  # - name: vladgh.samba
+  - name: https://github.com/vladgh/ansible-collection-vladgh-samba
+    version: main
+    type: git
+

@@ -180,3 +180,25 @@ containers:
 snapper_templates:
   mergerfsdisk:
     TIMELINE_CREATE: false
+
+# Samba configuration
+samba_shares:
+  - name: NewHamsterdam
+    comment: "Oh you know"
+    path: "/mnt/storage/newhamsterdam"
+    read_only: "no"
+    guest_ok: "yes"
+    public: "yes"
+    writable: "yes"
+  - name: Backup
+    comment: Time Machine backups
+    path: "/mnt/storage/backup"
+    read_only: "no"
+    guest_ok: "no"
+    browseable: "yes"
+    write_list: +bhawkins
+samba_users:
+  - {
+    name: "bhawkins",
+    password: "dummy"
+  }
